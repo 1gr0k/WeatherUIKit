@@ -11,7 +11,7 @@ class MainTableCellViewModel {
     private var cityWeather: Weather
     
     var cityName: String {
-        return cityWeather.city!
+        return cityWeather.city ?? ""
     }
     
     init(cityWeather: Weather) {

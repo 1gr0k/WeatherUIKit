@@ -14,6 +14,13 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.rightBarButtonItem = editButtonItem
+        
+        if viewModel.isCitiesEmpty() {
+            self.setEditing(true, animated: true)
+            self.addCity()
+        }
+        
         viewModel.fetchAllWeather { [weak self] in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
@@ -26,7 +33,7 @@ class MainTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return viewModel.numberOfRows()
+        return viewModel?.numberOfRows() ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -34,39 +41,9 @@ class MainTableViewController: UITableViewController {
         guard let tableViewCell = cell, let viewModel = viewModel else { return UITableViewCell() }
         let cellViewModel = viewModel.cellViewModel(indexPath: indexPath)
         tableViewCell.viewModel = cellViewModel
-
         return tableViewCell
     }
 
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    // MARK: - Navigation
 
  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
      guard let viewModel = viewModel else { return }
@@ -79,9 +56,56 @@ class MainTableViewController: UITableViewController {
      
      if identifier == "detailSegue" {
          if let dvc = segue.destination as? DetailViewController {
-             dvc.viewModel = viewModel.viewModelForSelectedRow() as! DetailViewModel
+            dvc.viewModel = viewModel.viewModelForSelectedRow()!
          }
      }
  }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        switch editingStyle {
+        case .delete:
+            viewModel.deleteCity(row: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        default:
+            return
+        }
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: true)
+        if (self.isEditing) {
+            navigationItem.leftBarButtonItem =
+                UIBarButtonItem(barButtonSystemItem: .add, target: self,
+                                action: #selector(addCity))
+            
+        } else {
+            let newButton = UIBarButtonItem(title: "", style: UIBarButtonItem.Style.plain, target: navigationController, action: nil)
+            navigationItem.leftBarButtonItem = newButton
+            self.tableView.reloadData()
+        }
+
+    }
+    
+    @objc func addCity() {
+        let alert = UIAlertController(title: "Some Title", message: "Enter a text", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            textField.placeholder = "Enter the city"
+            
+        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { [weak alert] (_) in
+            let textField = alert?.textFields![0] // Force unwrapping because we know it exists.
+            guard let text = textField?.text, text.count>0 else {
+                return }
+            DispatchQueue.main.async {
+                self.viewModel.addCity(city: text)
+            }
+            
+            self.isEditing.toggle()
+            self.tableView.reloadData()
+        }))
+        self.present(alert, animated: true, completion: nil)
+        
+    }
 
 }

@@ -9,17 +9,43 @@ import Foundation
 
 class MainTableViewModel: NSObject {
     
+    @IBOutlet weak var networkManager: NetworkWeatherManager!
     private var selectedIndexPath: IndexPath?
     
-    private var citiesList = ["Ufa","asd"]
-    private var citiesWeather: [Weather]? = []
+    private var citiesList = UserDefaults.standard.object(forKey: "cities") as? [String] ?? []
+    var citiesWeather: [Weather]? = []
+    
     
     func fetchAllWeather(completion: @escaping() -> ()) {
-        citiesList.forEach { [weak self] city in
-            self?.citiesWeather?.append(Weather(city: city, temp: 0))
+        citiesWeather = []
+        citiesList.forEach { city in
+            fetchWeather(city: city) {
+                completion()
+            }
         }
         completion()
+    }
+    
+    func fetchWeather(city: String, completion: @escaping() -> ()) {
+        networkManager.fetchWeather(city: city) { [weak self] city in
+            self?.citiesWeather?.append(city)
+            completion()
+        }
         
+    }
+    
+    func deleteCity(row: Int) {
+        citiesList.remove(at: row)
+        citiesWeather?.remove(at: row)
+        UserDefaults.standard.set(citiesList, forKey: "cities")
+    }
+    
+    func addCity(city: String) {
+        citiesList.append(city)
+        UserDefaults.standard.set(citiesList, forKey: "cities")
+        networkManager.fetchWeather(city: city) { [weak self] city in
+            self?.citiesWeather?.append(city)
+        }
     }
     
     func cellViewModel(indexPath: IndexPath) -> MainTableCellViewModel? {
@@ -37,6 +63,10 @@ class MainTableViewModel: NSObject {
     }
     
     func numberOfRows() -> Int{
-        return citiesList.count
+        return citiesWeather?.count ?? 0
+    }
+    
+    func isCitiesEmpty() -> Bool{
+        return citiesList.count==0 ? true : false
     }
 }
