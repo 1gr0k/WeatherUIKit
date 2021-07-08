@@ -14,6 +14,10 @@ class MainTableCellViewModel {
         return cityWeather.city ?? ""
     }
     
+    var cityTemp: String {
+        return String(cityWeather.temp ?? 0)
+    }
+    
     init(cityWeather: Weather) {
         self.cityWeather = cityWeather
     }

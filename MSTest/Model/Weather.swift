@@ -36,7 +36,6 @@ struct Weather {
     init(weatherData: WeatherData) {
         self.city = weatherData.city?.name
         self.temp = Int(weatherData.list?.first?.main?.temp ?? 0)
-        //self.icon = weatherData.list?.first?.weather.first?.description
         self.minTemp = String(Int(weatherData.list?.first?.main?.temp_min ?? 0))
         self.maxTemp = String(Int(weatherData.list?.first?.main?.temp_max ?? 0))
         self.icon = iconMap[weatherData.list?.first?.weather.first?.description ?? ""]

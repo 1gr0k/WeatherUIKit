@@ -9,7 +9,6 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
-    //var viewModel: DetailViewModel?
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var iconLabel: UILabel!
     @IBOutlet weak var mainTempLabel: UILabel!
@@ -29,7 +28,7 @@ class DetailViewController: UIViewController {
         
         daylyWeatherCollection.delegate = self
         daylyWeatherCollection.dataSource = self
-        
+    
         daylyWeatherTable.dataSource = self
         
         setLabels()
@@ -43,6 +42,7 @@ class DetailViewController: UIViewController {
         self.minTempLabel.text = viewModel.minTemp
         self.maxTempLabel.text = viewModel.maxTemp
     }
+    
     
 }
 
@@ -71,8 +71,6 @@ extension DetailViewController: UICollectionViewDataSource {
 
 extension DetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        guard let count = viewModel?.hourlyWeather.count else { return 0}
-//        return Int(count/8)
         return viewModel?.dailyWeather.count ?? 0
     }
     

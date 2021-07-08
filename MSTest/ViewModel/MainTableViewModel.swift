@@ -43,6 +43,7 @@ class MainTableViewModel: NSObject {
     func addCity(city: String) {
         citiesList.append(city)
         UserDefaults.standard.set(citiesList, forKey: "cities")
+
         networkManager.fetchWeather(city: city) { [weak self] city in
             self?.citiesWeather?.append(city)
         }

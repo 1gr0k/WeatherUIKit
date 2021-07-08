@@ -10,8 +10,6 @@ import Alamofire
 
 class NetworkWeatherManager:NSObject {
     
-    //    static let shared = WeatherAPI()
-    
     var onCompletion:((Weather) -> Void)?
     
     
@@ -33,7 +31,6 @@ class NetworkWeatherManager:NSObject {
         do {
             let weatherData = try decoder.decode(WeatherData.self, from: data)
             let currentWeather = Weather(weatherData: weatherData)
-//            guard let currentWeather = Weather(weatherData: weatherData) else { return nil }
             return currentWeather
         } catch let error as NSError {
             print(error.localizedDescription)

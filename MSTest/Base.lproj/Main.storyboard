@@ -20,30 +20,41 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cityCell" id="usq-Qi-MHL" customClass="MainTableViewCell" customModule="MSTest" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="24.5" width="414" height="55.5"/>
+                                <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="usq-Qi-MHL" id="pkX-ii-F0a">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="55.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7q0-uS-cPM">
-                                            <rect key="frame" x="36" y="17" width="150" height="21.5"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="150" id="j5L-VU-bQb"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="166" translatesAutoresizingMaskIntoConstraints="NO" id="huz-nC-F9M">
+                                            <rect key="frame" x="28.5" y="11.5" width="357.5" height="20.5"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7q0-uS-cPM">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="20.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="150" id="j5L-VU-bQb"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQj-rs-9I6">
+                                                    <rect key="frame" x="316" y="0.0" width="41.5" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottomMargin" secondItem="7q0-uS-cPM" secondAttribute="bottom" constant="6" id="80m-SC-qU6"/>
-                                        <constraint firstItem="7q0-uS-cPM" firstAttribute="leading" secondItem="pkX-ii-F0a" secondAttribute="leadingMargin" constant="16" id="8Ux-N8-Y2Z"/>
-                                        <constraint firstItem="7q0-uS-cPM" firstAttribute="top" secondItem="pkX-ii-F0a" secondAttribute="topMargin" constant="6" id="gSx-0o-dEN"/>
+                                        <constraint firstItem="huz-nC-F9M" firstAttribute="centerY" secondItem="pkX-ii-F0a" secondAttribute="centerY" id="AeL-Lb-DDL"/>
+                                        <constraint firstItem="huz-nC-F9M" firstAttribute="centerX" secondItem="pkX-ii-F0a" secondAttribute="centerX" id="V5m-p4-yVo"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="cityNameLabel" destination="7q0-uS-cPM" id="uNb-qg-Bch"/>
+                                    <outlet property="cityTempLabel" destination="NQj-rs-9I6" id="RPE-8k-uCU"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
